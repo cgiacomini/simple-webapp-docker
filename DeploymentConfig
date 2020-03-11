@@ -1,0 +1,30 @@
+kind: "DeploymentConfig"
+apiVersion: "v1"
+metadata:
+  name: "simple-webapp-docker"
+spec:
+  template: 
+    metadata:
+      labels:
+        name: "simple-webapp-docker"
+    spec:
+      containers:
+        - name: "helloworld"
+          image: "simple-webapp-docker:latest"
+          ports:
+            - containerPort: 8080
+              protocol: "TCP"
+  replicas: 1 
+  triggers:
+    - type: "ConfigChange" 
+    - type: "ImageChange" 
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - "simple-webapp-docker:latest"
+        from:
+          kind: "ImageStreamTag"
+          name: "simple-webapp-docker"
+  strategy: 
+    type: "Rolling"
+
