@@ -9,22 +9,22 @@ spec:
         name: "simple-webapp-docker"
     spec:
       containers:
-        - name: "helloworld"
-          image: "simple-webapp-docker:latest"
+        - name: "simple-webapp-docker"
+          image: "172.30.1.1:5000/my-webapp/my-webapp-docker:latest"
           ports:
             - containerPort: 8080
               protocol: "TCP"
   replicas: 1 
   triggers:
-    - type: "ConfigChange" 
-    - type: "ImageChange" 
-      imageChangeParams:
+    - imageChangeParams:
         automatic: true
         containerNames:
-          - "simple-webapp-docker:latest"
+          - simple-webapp-docker
         from:
-          kind: "ImageStreamTag"
-          name: "simple-webapp-docker"
+          kind: ImageStreamTag
+          name: 'my-webapp-docker:latest'
+          namespace: my-webapp
+      type: ImageChange
+    - type: ConfigChange
   strategy: 
     type: "Rolling"
-
