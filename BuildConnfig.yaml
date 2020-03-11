@@ -6,7 +6,7 @@ spec:
   output:
     to:
       kind: ImageStreamTag
-      name: 'my-webapp:latest'
+      name: 'my-webapp-docker:latest'
   runPolicy: Serial
   source:
     git:
@@ -14,11 +14,8 @@ spec:
       uri: 'https://github.com/cgiacomini/simple-webapp-docker.git'
     type: Git
   strategy:
-    type: Docker
     dockerStrategy:
-      from:
-        kind: 'DockerImage'
-        name: 'python:3.8.1-buster'
+    type: Docker
   triggers:
     - type: ConfigChange
     - generic:
