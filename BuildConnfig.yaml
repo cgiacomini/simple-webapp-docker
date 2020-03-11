@@ -1,0 +1,31 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: my-webapp-docker
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'my-webapp:latest'
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/cgiacomini/simple-webapp-docker.git'
+    type: Git
+  strategy:
+    type: Docker
+    dockerStrategy:
+      from:
+        kind: 'DockerImage'
+        name: 'python:3.8.1-buster'
+  triggers:
+    - type: ConfigChange
+    - generic:
+        secret: 52b6208d2d8c8b8d
+      type: Generic
+    - github:
+        secret: d2abd32f45cf0fd0
+      type: GitHub
+status:
+  lastVersion: 1
